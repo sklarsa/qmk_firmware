@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
+#include "steve.h"
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
@@ -19,7 +20,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TAB,           KC_Q,           KC_W,       KC_E,        KC_R,       KC_T,      KC_LBRC,
       LT(2,KC_EQL),     KC_A,           KC_S,       KC_D,        KC_F,       KC_G,
       KC_LSHIFT,        KC_Z,           KC_X,       KC_C,        KC_V,       KC_B,      KC_MINS,
-      CTL_T(KC_GRV),    ALT_T(KC_QUOT), KC_LGUI,    KC_LEFT,     KC_MS_RIGHT,
+      CTL_T(KC_GRV),    ALT_T(KC_QUOT), ALT_CMD,    KC_LEFT,     KC_RIGHT,
                                                                   KC_TRNS,     KC_TRNS,
                                                                                KC_TRNS,
                                                     TT(1),       KC_BSPC,    KC_DELETE,
