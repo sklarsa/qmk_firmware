@@ -14,8 +14,9 @@ enum custom_keycodes {
 
 enum layers {
   BASE = 0,
-  CHARS_NUMPAD,
-  ARROWS_MEDIA
+  CHARNUM,
+  ARRSUBL,
+  MEDIA
 
 };
 
@@ -24,14 +25,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Base layer
   [BASE] = LAYOUT_ergodox(
       // left hand
-      KC_ESC,           KC_1,           KC_2,       KC_3,        KC_4,       KC_5,      KC_CAPSLOCK,
-      KC_TAB,           KC_Q,           KC_W,       KC_E,        KC_R,       KC_T,      KC_LBRC,
-      LT(2,KC_EQL),     KC_A,           KC_S,       KC_D,        KC_F,       KC_G,
-      OSM(MOD_LSFT),    KC_Z,           KC_X,       KC_C,        KC_V,       KC_B,      KC_MINS,
-      OSM(MOD_LCTL),    ALT_T(KC_QUOT), ALT_CMD,    KC_LEFT,     KC_RIGHT,
-                                                                 KC_TRNS,     KC_TRNS,
+      KC_ESC,            KC_1,           KC_2,       KC_3,        KC_4,       KC_5,      KC_CAPSLOCK,
+      KC_TAB,            KC_Q,           KC_W,       KC_E,        KC_R,       KC_T,      KC_LBRC,
+      LT(ARRSUBL,KC_EQL),KC_A,           KC_S,       KC_D,        KC_F,       KC_G,
+      OSM(MOD_LSFT),     KC_Z,           KC_X,       KC_C,        KC_V,       KC_B,      KC_MINS,
+      OSM(MOD_LCTL),     ALT_T(KC_QUOT), ALT_CMD,    KC_LEFT,     KC_RIGHT,
+                                                                  KC_TRNS,    TT(MEDIA),
                                                                               KC_TRNS,
-                                                    OSL(1),      KC_BSPC,    KC_DELETE,
+                                               LT(CHARNUM,KC_TAB),KC_BSPC,    KC_DELETE,
 
 
       // right hand
@@ -45,7 +46,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TRNS,    KC_ENTER,   GUI_T(KC_SPACE)),
 
   // Numpad, function keys, and shifted punctuation
-  [CHARS_NUMPAD] = LAYOUT_ergodox(
+  [CHARNUM] = LAYOUT_ergodox(
     // left hand
     KC_ESC,   KC_F1,   KC_F2,   KC_F3,     KC_F4,    KC_F5,    KC_TRNS,
     KC_TRNS,  KC_EXLM, KC_AT,   KC_LCBR,   KC_RCBR,  KC_PIPE,  KC_TRNS,
@@ -66,17 +67,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,
     KC_TRNS,KC_TRNS, KC_TRNS),
 
-  // Media and arrow keys
-  [ARROWS_MEDIA] = LAYOUT_ergodox(
+  // Arrow keys and sublime navigation shortcuts
+  [ARRSUBL] = LAYOUT_ergodox(
     // left hand
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, LCMD(KC_X), LCMD(KC_C), LCMD(KC_V), KC_TRNS, KC_TRNS,
-    KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_BTN2,
-                                                 KC_TRNS, KC_TRNS,
-                                                          KC_TRNS,
-                                          KC_HOME, KC_END, KC_TRNS,
+    KC_TRNS, KC_TRNS,      KC_TRNS,      KC_TRNS,     KC_TRNS,      KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS,      KC_TRNS,      LCMD(KC_UP), KC_TRNS,      KC_TRNS, KC_TRNS,
+    KC_TRNS, LCMD(KC_LEFT),LALT(KC_LEFT),LCMD(KC_D),  LALT(KC_RGHT),LCMD(KC_RGHT),
+    KC_TRNS, LCMD(KC_Z),   LCMD(KC_X),   LCMD(KC_C),  LCMD(KC_V),   KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS,      KC_TRNS,      KC_BTN1,     KC_BTN2,
+                                                                   KC_TRNS, KC_TRNS,
+                                                                            KC_TRNS,
+                                                            KC_HOME, KC_END, KC_TRNS,
     // right hand
     RGB_TOG, RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,
     KC_TRNS, KC_PGUP, KC_TRNS, KC_UP,   KC_TRNS, KC_TRNS, RGB_MOD,
@@ -86,6 +87,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS,
     KC_TRNS,
     KC_TRNS, KC_PGUP, KC_PGDN),
+
+  // Media and RGB keys
+  [MEDIA] = LAYOUT_ergodox(
+    // left hand
+    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
+    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
+    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
+    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
+                                              KC_TRNS, KC_TRNS,
+                                                       KC_TRNS,
+                                      KC_TRNS, KC_TRNS, KC_TRNS,
+    // right hand
+    RGB_TOG, RGB_VAI, RGB_VAD, RGB_SAI, RGB_SAD, RGB_HUI, RGB_HUD,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, RGB_MOD,
+             KC_TRNS, KC_TRNS, KC_TRNS, KC_RIGHT,KC_TRNS, KC_MPLY,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_MPRV, KC_MNXT, KC_TRNS, KC_TRNS,
+                      KC_VOLU, KC_VOLD, KC_MUTE, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS,
+    KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_PGDN
+  )
 
 };
 
