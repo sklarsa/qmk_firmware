@@ -3,28 +3,35 @@
 #include "action_layer.h"
 #include "version.h"
 #include "steve.h"
+#include "quantum.h"
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
   RGB_SLD,
+};
+
+enum layers {
+  BASE = 0,
+  CHARS_NUMPAD,
+  ARROWS_MEDIA
 
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   // Base layer
-  [0] = LAYOUT_ergodox(
+  [BASE] = LAYOUT_ergodox(
       // left hand
       KC_ESC,           KC_1,           KC_2,       KC_3,        KC_4,       KC_5,      KC_CAPSLOCK,
       KC_TAB,           KC_Q,           KC_W,       KC_E,        KC_R,       KC_T,      KC_LBRC,
       LT(2,KC_EQL),     KC_A,           KC_S,       KC_D,        KC_F,       KC_G,
-      KC_LSHIFT,        KC_Z,           KC_X,       KC_C,        KC_V,       KC_B,      KC_MINS,
+      OSM(MOD_LSFT),    KC_Z,           KC_X,       KC_C,        KC_V,       KC_B,      KC_MINS,
       OSM(MOD_LCTL),    ALT_T(KC_QUOT), ALT_CMD,    KC_LEFT,     KC_RIGHT,
                                                                  KC_TRNS,     KC_TRNS,
                                                                               KC_TRNS,
-                                                    TT(1),       KC_BSPC,    KC_DELETE,
+                                                    OSL(1),      KC_BSPC,    KC_DELETE,
 
 
       // right hand
@@ -38,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TRNS,    KC_ENTER,   GUI_T(KC_SPACE)),
 
   // Numpad, function keys, and shifted punctuation
-  [1] = LAYOUT_ergodox(
+  [CHARS_NUMPAD] = LAYOUT_ergodox(
     // left hand
     KC_ESC,   KC_F1,   KC_F2,   KC_F3,     KC_F4,    KC_F5,    KC_TRNS,
     KC_TRNS,  KC_EXLM, KC_AT,   KC_LCBR,   KC_RCBR,  KC_PIPE,  KC_TRNS,
@@ -47,7 +54,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS,   KC_TRNS,
                                                      KC_TRNS,  KC_TRNS,
                                                                KC_TRNS,
-                                           KC_TRNS,  KC_BSPC,  KC_TRNS,
+                                           KC_TRNS,  KC_TRNS,  KC_TRNS,
 
     // right hand
     KC_TRNS,  KC_F6,  KC_F7,  KC_F8,  KC_F9,  KC_F10,    KC_F11,
@@ -60,12 +67,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,KC_TRNS, KC_TRNS),
 
   // Media and arrow keys
-  [2] = LAYOUT_ergodox(
+  [ARROWS_MEDIA] = LAYOUT_ergodox(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
-    KC_LSHIFT, KC_TRNS, LCMD(KC_X), LCMD(KC_C), LCMD(KC_V), KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, LCMD(KC_X), LCMD(KC_C), LCMD(KC_V), KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_BTN1, KC_BTN2,
                                                  KC_TRNS, KC_TRNS,
                                                           KC_TRNS,
@@ -80,10 +87,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,
     KC_TRNS, KC_PGUP, KC_PGDN),
 
-};
-
-const uint16_t PROGMEM fn_actions[] = {
-  [1] = ACTION_LAYER_TAP_TOGGLE(1)
 };
 
 // leaving this in place for compatibilty with old keymaps cloned and re-compiled.
