@@ -2,7 +2,7 @@
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
-#include "steve.h"
+#include "config.h"
 #include "quantum.h"
 
 enum custom_keycodes {
