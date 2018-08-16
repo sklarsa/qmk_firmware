@@ -32,7 +32,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       OSM(MOD_LCTL),     ALT_T(KC_BSLS), ALT_CMD,    KC_LEFT,     KC_RIGHT,
                                                                   KC_TRNS,    TT(MEDIA),
                                                                               KC_TRNS,
-                                                OSL(CHARNUM), OSM(MOD_LGUI),  KC_DELETE,
+                                                          OSL(CHARNUM), GUI_T(KC_TAB),KC_DELETE,
 
 
       // right hand
