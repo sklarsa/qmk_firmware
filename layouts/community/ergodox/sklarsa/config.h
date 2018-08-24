@@ -2,3 +2,7 @@
 #define ONESHOT_TAP_TOGGLE 2
 #define ONESHOT_TIMEOUT 5000
 #define PERMISSIVE_HOLD
+
+#ifdef MOUSEKEY_ENABLED
+aaaaa
+#endif

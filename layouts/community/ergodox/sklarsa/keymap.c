@@ -1,15 +1,21 @@
+#include <stdarg.h>
+#include <stdio.h>
 #include QMK_KEYBOARD_H
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
 #include "config.h"
 #include "quantum.h"
+#include "led.h"
+#include "timer.h"
+#include "print.h"
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
-  EPRM,
-  VRSN,
-  RGB_SLD,
+  EPRM, // Initialize the keyboard
+  VRSN, // Print the keyboard version
+  RGB_SLD, // Toggle RGB backlighting
+  KEYLOG, // Toggle keylogger
 };
 
 enum layers {
@@ -17,8 +23,11 @@ enum layers {
   CHARNUM,
   ARRSUBL,
   MEDIA
-
 };
+
+#ifdef KEYLOGGER_ENABLE
+bool logging_enabled = false;
+#endif
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -91,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Media and RGB keys
   [MEDIA] = LAYOUT_ergodox(
     // left hand
-    KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
+    KEYLOG ,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,
     KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS,KC_TRNS, KC_TRNS,
@@ -132,6 +141,32 @@ void matrix_init_user(void) {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  #ifdef KEYLOGGER_ENABLE
+  if (logging_enabled){
+    if (record->event.pressed) {
+      uint8_t layer = biton32(layer_state);
+      char *layerStr = NULL;
+
+      switch (layer) {
+        case BASE:
+          layerStr = "BASE";
+          break;
+        case CHARNUM:
+          layerStr = "CHARNUM";
+          break;
+        case ARRSUBL:
+          layerStr = "ARRSUBL";
+          break;
+      }
+
+      if (layerStr) {
+        xprintf("KL: col=%02d, row=%02d, pressed=%d, layer=%s\n", record->event.key.col,
+               record->event.key.row, record->event.pressed, layerStr);
+      }
+    }
+  }
+
+  #endif
   switch (keycode) {
     // dynamically generate these.
     case EPRM:
@@ -153,6 +188,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       return false;
       break;
 
+    #ifdef KEYLOGGER_ENABLE
+    case KEYLOG:
+      if (record->event.pressed) {
+        ergodox_led_all_on();
+        wait_ms(100);
+        ergodox_led_all_off();
+        wait_ms(50);
+        logging_enabled = !logging_enabled;
+        if (logging_enabled) {
+          print("Keylogger started\n");
+          ergodox_led_all_on();
+          wait_ms(100);
+          ergodox_led_all_off();
+        } else {
+          print("Keylogger stopped\n");
+        }
+      }
+      return false;
+      break;
+    #endif
   }
   return true;
 }
