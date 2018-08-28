@@ -16,6 +16,14 @@ enum custom_keycodes {
   VRSN, // Print the keyboard version
   RGB_SLD, // Toggle RGB backlighting
   KEYLOG, // Toggle keylogger
+
+  // RGB Presets defined in process_record_user
+  RGBPRESET_1,
+  RGBPRESET_2,
+  RGBPRESET_3,
+  RGBPRESET_4,
+  RGBPRESET_5
+
 };
 
 enum layers {
@@ -102,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // Media and RGB keys
   [MEDIA] = LAYOUT_ergodox(
     // left hand
-    KEYLOG ,____,____,____,____,____, ____,
+    KEYLOG ,RGBPRESET_1,RGBPRESET_2,____,____,____, ____,
     ____,   ____,____,____,____,____, ____,
     ____,   ____,____,____,____,____,
     ____,   ____,____,____,____,____, ____,
@@ -207,6 +215,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           print("Keylogger stopped\n");
         }
       }
+      return false;
+      break;
+    #endif
+
+    #ifdef RGBPRESET_ENABLE
+    // Knight rider in red
+    case RGBPRESET_1:
+      rgblight_enable();
+      rgblight_mode(21);
+      rgblight_setrgb(255, 0, 0);
+      return false;
+      break;
+    // Cycling rainbow
+    case RGBPRESET_2:
+      rgblight_enable();
+      rgblight_mode(6);
       return false;
       break;
     #endif
